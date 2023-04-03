@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+            <html>
+            <body>
+            
+            <svg xmlns="http://www.w3.org/2000/svg" height="200" width="200">
+              <polygon points="100,0 200,200 0,200" r="100" style="fill:blue;stroke:black;" />
+              <text x="80" y="120" fill="black">AAA</text>
+            </svg>
+            
+            </body>
+            </html>
