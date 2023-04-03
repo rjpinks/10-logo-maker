@@ -22,7 +22,7 @@ const Circle = class Circle {
     }
 }
 const questions = [
-    "How many letters would you like in your logo? (please only enter up to 3)",
+    "Please enter up to 3 letters to use in your logo?",
     "Please enter a color keyword or a hexadecimal for the color of your logo.",
     "Please choose your desired shape: Circle, Triangle, or Square."
 ]
@@ -46,56 +46,60 @@ var createPrompts = function() {
         }
     ])
     .then((response) => {
-        console.log("response", response);
-        const upperShape = this.desiredShape.toUpperCase();
-        if (upperShape === "CIRCLE") {
-            const svgCirLogo = new Circle(this.desiredColor, this.desiredLetters);
-            fs.writeFile("logo.svg",
+        const upperShape = response.desiredShape.toUpperCase();
+        const numOfLetters = response.desiredLetters.length;
+        const usedLetters = response.desiredLetters;
+        const usedColor = response.desiredColor;
+        if (numOfLetters != 1 && numOfLetters != 2 && numOfLetters != 3) {
+            console.log("You need to rerun the file. You did not enter a correct number of characters!");
+        } else if (upperShape !== "CIRCLE" && upperShape !== "TRIANGLE" && upperShape !== "SQUARE") {
+            console.log("You did not enter a correct shape. Try again!");
+        } else if (upperShape === "CIRCLE") {
+            const svgCirLogo = new Circle(usedColor, usedLetters);
+            fs.writeFile("logo.svg", 
             `<!DOCTYPE html>
             <html>
             <body>
             
-            <svg height="200" width="200">
-              <${svgCirLogo.svgShape} r="100" fill="fill:${svgCirLogo.svgColor};stroke:black;" />
-              <text fill="black" stroke="white">${svgCirLogo.svgLetters}</text>
+            <svg xmlns="http://www.w3.org/2000/svg" height="200" width="200">
+              <${svgCirLogo.svgShape} r="100" cx="100" cy="100" fill="${svgCirLogo.svgColor}" stroke="black"/>
+              <text x="80" y="110" fill="black">${svgCirLogo.svgLetters}</text>
             </svg>
             
             </body>
-            </html>`)
+            </html>`, 
+            (err) => console.log(err));
         } else if (upperShape === "TRIANGLE") {
-            const svgTriLogo = new Triangle(this.desiredColor, this.desiredLetters);
+            const svgTriLogo = new Triangle(response.desiredColor, response.desiredLetters);
             fs.writeFile("logo.svg",
             `<!DOCTYPE html>
             <html>
             <body>
             
-            <svg height="200" width="200">
+            <svg xmlns="http://www.w3.org/2000/svg" height="200" width="200">
               <${svgTriLogo.svgShape} r="100" fill="fill:${svgTriLogo.svgColor};stroke:black;" />
-              <text fill="black" stroke="white">${svgTriLogo.svgLetters} />
+              <text x="80" y="120" fill="black">${svgTriLogo.svgLetters}</text>
             </svg>
             
             </body>
-            </html>`)
+            </html>`, 
+            (err) => console.log(err));
         } else if (upperShape === "SQUARE") {
-            const svgSqrLogo = new Square(this.desiredColor, this.desiredLetters);
+            const svgSqrLogo = new Square(response.desiredColor, response.desiredLetters);
             fs.writeFile("logo.svg",
             `<!DOCTYPE html>
             <html>
             <body>
             
-            <svg height="200" width="200">
-              <${svgSqrLogo.svgShape} r="100" fill="fill:${svgSqrLogo.svgColor};stroke:black;" />
-              <text fill="black" stroke="white">${svgSqrLogo.svgLetters} />
+            <svg xmlns="http://www.w3.org/2000/svg" height="200" width="200">
+              <${svgSqrLogo.svgShape} width="200" height="200" fill="${svgSqrLogo.svgColor}" stroke="black" />
+              <text x="80" y="110" fill="black">${svgSqrLogo.svgLetters}</text>
             </svg>
             
             </body>
-            </html>`)
+            </html>`, 
+            (err) => console.log(err));
         };
-        
-        /*if (numOfLetters.length !== 1 || numOfLetters.length !== 2 || numOfLetters.length !== 3) {
-
-        };*/
-        //if (upperShape !== "CIRCLE" || upperShape !== "TRIANGLE" || upperShape !== " SQUARE") {};
     })
 };
 
