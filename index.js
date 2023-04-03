@@ -1,5 +1,8 @@
+//libraries that need to be imported
 const inquirer = require("inquirer");
 const fs = require("fs");
+
+//classes
 const Triangle = class Triangle {
     constructor(svgColor, svgLetters) {
         this.svgShape = 'polygon points="100,0 200,200 0,200"';
@@ -21,6 +24,8 @@ const Circle = class Circle {
         this.svgLetters = svgLetters;
     }
 }
+
+//Questions generated for the user
 const questions = [
     "Please enter up to 3 letters to use in your logo?",
     "Please enter a color keyword or a hexadecimal for the color of your logo.",
@@ -46,10 +51,12 @@ var createPrompts = function() {
         }
     ])
     .then((response) => {
+        //some variables from user inputs that will be used as parameters in a class
         const upperShape = response.desiredShape.toUpperCase();
         const numOfLetters = response.desiredLetters.length;
         const usedLetters = response.desiredLetters;
         const usedColor = response.desiredColor;
+        //asks if the user inputed the correct number of letters, then makes sure they inputed the correct shape, finally it asks which shape and creates the appropriate class and generates the svg logo using information from the new object.
         if (numOfLetters != 1 && numOfLetters != 2 && numOfLetters != 3) {
             console.log("You need to rerun the file. You did not enter a correct number of characters!");
         } else if (upperShape !== "CIRCLE" && upperShape !== "TRIANGLE" && upperShape !== "SQUARE") {
@@ -77,7 +84,7 @@ var createPrompts = function() {
             <body>
             
             <svg xmlns="http://www.w3.org/2000/svg" height="200" width="200">
-              <${svgTriLogo.svgShape} r="100" fill="fill:${svgTriLogo.svgColor};stroke:black;" />
+              <${svgTriLogo.svgShape} r="100" style="fill:${svgTriLogo.svgColor};stroke:black;" />
               <text x="80" y="120" fill="black">${svgTriLogo.svgLetters}</text>
             </svg>
             
@@ -103,4 +110,5 @@ var createPrompts = function() {
     })
 };
 
+//Calls the only function in the app
 createPrompts();
