@@ -32,7 +32,59 @@ const questions = [
     "Please choose your desired shape: Circle, Triangle, or Square."
 ]
 
-var createPrompts = function() {
+const renderSvg = function(upperShape, numOfLetters, usedLetters, usedColor) {
+    if (numOfLetters != 1 && numOfLetters != 2 && numOfLetters != 3) {
+        console.log("You need to rerun the file. You did not enter a correct number of characters!");
+    } else if (upperShape !== "CIRCLE" && upperShape !== "TRIANGLE" && upperShape !== "SQUARE") {
+        console.log("You did not enter a correct shape. Try again!");
+    } else if (upperShape === "CIRCLE") {
+        const svgCirLogo = new Circle(usedColor, usedLetters);
+        fs.writeFile("logo.svg", 
+        `<!DOCTYPE html>
+        <html>
+        <body>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" height="200" width="200">
+          <${svgCirLogo.svgShape} r="100" cx="100" cy="100" fill="${svgCirLogo.svgColor}" stroke="black"/>
+          <text x="80" y="110" fill="black">${svgCirLogo.svgLetters}</text>
+        </svg>
+        
+        </body>
+        </html>`, 
+        (err) => console.log(err));
+    } else if (upperShape === "TRIANGLE") {
+        const svgTriLogo = new Triangle(usedColor, usedLetters);
+        fs.writeFile("logo.svg",
+        `<!DOCTYPE html>
+        <html>
+        <body>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" height="200" width="200">
+          <${svgTriLogo.svgShape} r="100" style="fill:${svgTriLogo.svgColor};stroke:black;" />
+          <text x="80" y="120" fill="black">${svgTriLogo.svgLetters}</text>
+        </svg>
+        
+        </body>
+        </html>`, 
+        (err) => console.log(err));
+    } else if (upperShape === "SQUARE") {
+        const svgSqrLogo = new Square(usedColor, usedLetters);
+        fs.writeFile("logo.svg",
+        `<!DOCTYPE html>
+        <html>
+        <body>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" height="200" width="200">
+          <${svgSqrLogo.svgShape} width="200" height="200" fill="${svgSqrLogo.svgColor}" stroke="black" />
+          <text x="80" y="110" fill="black">${svgSqrLogo.svgLetters}</text>
+        </svg>
+        
+        </body>
+        </html>`, 
+        (err) => console.log(err));
+    }
+};
+const createPrompts = function() {
     inquirer.prompt([
         {
             type: "input",
@@ -56,59 +108,12 @@ var createPrompts = function() {
         const numOfLetters = response.desiredLetters.length;
         const usedLetters = response.desiredLetters;
         const usedColor = response.desiredColor;
-        //asks if the user inputed the correct number of letters, then makes sure they inputed the correct shape, finally it asks which shape and creates the appropriate class and generates the svg logo using information from the new object.
-        if (numOfLetters != 1 && numOfLetters != 2 && numOfLetters != 3) {
-            console.log("You need to rerun the file. You did not enter a correct number of characters!");
-        } else if (upperShape !== "CIRCLE" && upperShape !== "TRIANGLE" && upperShape !== "SQUARE") {
-            console.log("You did not enter a correct shape. Try again!");
-        } else if (upperShape === "CIRCLE") {
-            const svgCirLogo = new Circle(usedColor, usedLetters);
-            fs.writeFile("logo.svg", 
-            `<!DOCTYPE html>
-            <html>
-            <body>
-            
-            <svg xmlns="http://www.w3.org/2000/svg" height="200" width="200">
-              <${svgCirLogo.svgShape} r="100" cx="100" cy="100" fill="${svgCirLogo.svgColor}" stroke="black"/>
-              <text x="80" y="110" fill="black">${svgCirLogo.svgLetters}</text>
-            </svg>
-            
-            </body>
-            </html>`, 
-            (err) => console.log(err));
-        } else if (upperShape === "TRIANGLE") {
-            const svgTriLogo = new Triangle(response.desiredColor, response.desiredLetters);
-            fs.writeFile("logo.svg",
-            `<!DOCTYPE html>
-            <html>
-            <body>
-            
-            <svg xmlns="http://www.w3.org/2000/svg" height="200" width="200">
-              <${svgTriLogo.svgShape} r="100" style="fill:${svgTriLogo.svgColor};stroke:black;" />
-              <text x="80" y="120" fill="black">${svgTriLogo.svgLetters}</text>
-            </svg>
-            
-            </body>
-            </html>`, 
-            (err) => console.log(err));
-        } else if (upperShape === "SQUARE") {
-            const svgSqrLogo = new Square(response.desiredColor, response.desiredLetters);
-            fs.writeFile("logo.svg",
-            `<!DOCTYPE html>
-            <html>
-            <body>
-            
-            <svg xmlns="http://www.w3.org/2000/svg" height="200" width="200">
-              <${svgSqrLogo.svgShape} width="200" height="200" fill="${svgSqrLogo.svgColor}" stroke="black" />
-              <text x="80" y="110" fill="black">${svgSqrLogo.svgLetters}</text>
-            </svg>
-            
-            </body>
-            </html>`, 
-            (err) => console.log(err));
-        };
+        renderSvg(upperShape, numOfLetters, usedLetters, usedColor);
     })
 };
 
-//Calls the only function in the app
+//exporting the needed data for testing
+module.exports = {Triangle, Circle, Square, renderSvg};
+
+//calls the function and begins the the prompts.
 createPrompts();
