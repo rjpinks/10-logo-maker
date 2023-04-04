@@ -17,4 +17,7 @@ Answer the questions that are prompted when the file is ran. It is important to 
 
 ## Credits
 
-Inquirer, and W3 Schools were essential in my creation of this app.
+Inquirer, and W3 Schools were essential in my creation of this app. Shout-out to Pat the TA for helping me with testing.
+
+## Testing
+The index.test.js file contains six tests that see if the proper information is inserted into objects by the classes. This is important bc the objects created by them are used to dynamically insert data into a HTML format that will be used in our .svg file.

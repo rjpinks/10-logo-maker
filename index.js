@@ -53,7 +53,7 @@ const renderSvg = function(upperShape, numOfLetters, usedLetters, usedColor) {
         </html>`, 
         (err) => console.log(err));
     } else if (upperShape === "TRIANGLE") {
-        const svgTriLogo = new Triangle(response.desiredColor, response.desiredLetters);
+        const svgTriLogo = new Triangle(usedColor, usedLetters);
         fs.writeFile("logo.svg",
         `<!DOCTYPE html>
         <html>
@@ -68,7 +68,7 @@ const renderSvg = function(upperShape, numOfLetters, usedLetters, usedColor) {
         </html>`, 
         (err) => console.log(err));
     } else if (upperShape === "SQUARE") {
-        const svgSqrLogo = new Square(response.desiredColor, response.desiredLetters);
+        const svgSqrLogo = new Square(usedColor, usedLetters);
         fs.writeFile("logo.svg",
         `<!DOCTYPE html>
         <html>
@@ -111,7 +111,9 @@ const createPrompts = function() {
         renderSvg(upperShape, numOfLetters, usedLetters, usedColor);
     })
 };
-//asks if the user inputed the correct number of letters, then makes sure they inputed the correct shape, finally it asks which shape and creates the appropriate class and generates the svg logo using information from the new object.
-//Calls the only function in the app
+
+//exporting the needed data for testing
 module.exports = {Triangle, Circle, Square, renderSvg};
+
+//calls the function and begins the the prompts.
 createPrompts();
